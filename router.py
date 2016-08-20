@@ -2,14 +2,14 @@ import routes
 import wsgi
 import account_resource
 import roles_resource
-from rpc_client import FibonacciRpcClient
+from rpc_client import RpcClient
 
 class account(wsgi.Router):
 
     def __init__(self, mapper=None):
         if(mapper is None):
             mapper = routes.Mapper()
-        sendobj = FibonacciRpcClient('account')
+        sendobj = RpcClient('account')
         account_controller = account_resource.AccountController(sendobj)
         mapper.connect("/", controller=account_controller, action="create", conditions={'method': ['POST']})
         mapper.connect("/{user_name}/passwd", controller=account_controller, action="update", conditions={'method': ['POST']})
@@ -25,7 +25,7 @@ class roles(wsgi.Router):
     def __init__(self, mapper=None):
         if(mapper is None):
             mapper = routes.Mapper()
-        sendobj = FibonacciRpcClient('role')
+        sendobj = RpcClient('role')
         role_controller = roles_resource.RoleController(sendobj)
         mapper.connect("/", controller=role_controller, action="create",conditions={'method': ['POST']})
         mapper.connect("/", controller=role_controller, action="list",conditions={'method': ['GET']})

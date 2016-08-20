@@ -2,7 +2,7 @@ import httplib
 import json
 import webob.dec
 from webob import Response
-from rpc_client import FibonacciRpcClient
+from rpc_client import RpcClient
 import base_controller
 from pprint import pprint
 

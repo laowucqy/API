@@ -2,7 +2,7 @@ import httplib
 import simplejson
 import webob.dec
 from webob import Response
-from rpc_client import FibonacciRpcClient
+from rpc_client import RpcClient
 
 class Controller(object):
     def __init__(self, sendobj):
