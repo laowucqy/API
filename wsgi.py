@@ -1,7 +1,7 @@
 import routes.middleware
 import webob.dec
 import webob.exc
-
+from pprint import pprint
 
 class Router(object):
 
@@ -22,6 +22,8 @@ class Router(object):
     def _dispatch(req):
         match = req.environ['wsgiorg.routing_args'][1]
         if not match:
-            return webob.exc.HTTPNotFound()
+            res = webob.exc.HTTPNotFound()
+            pprint(res.__dict__)
+            return res
         app = match['controller']
         return app

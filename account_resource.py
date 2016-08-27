@@ -21,24 +21,10 @@ class AccountController(base_controller.Controller):
         pprint("Build create message!")
 
         res = self.sendobj.call(self.message)
-        print res
         pprint("send create message to receive thread!")
         return content
 
-    def show(self, req):
-        content = dict()
-        return content
 
-    def list(self, req):
-        self.message['cmdtype'] = 'list'
-        pprint(self.message)
-        pprint("Build list message!")
-
-        self.sendobj.call(self.message)
-        pprint("Send list message to receive thread!")
-
-        # return response
-        return self.message
     def delete(self, req ,user_name):
         self.message['cmdtype'] = 'delete'
         content = dict()
@@ -49,7 +35,6 @@ class AccountController(base_controller.Controller):
 
         self.sendobj.call(self.message)
         pprint("Send delete message to receive thread!")
-
         # return response
         return self.message
 

@@ -12,6 +12,7 @@ class RpcClient(object):
         self.channel = self.connection.channel()
         result = self.channel.queue_declare(exclusive=True)
         self.callback_queue = result.method.queue
+        self.channel.exchange_declare(exchange='test',type='direct')
         self.channel.basic_consume(self.on_response, no_ack=True,
                                    queue=self.callback_queue)
 
@@ -22,14 +23,13 @@ class RpcClient(object):
     def call(self, n):
         self.response = None
         self.corr_id = str(uuid.uuid4())
-        self.channel.basic_publish(exchange='',
+        self.channel.basic_publish(exchange='test',
                                    routing_key=self.queue_name,
                                    properties=pika.BasicProperties(
                                        reply_to=self.callback_queue,
                                        correlation_id=self.corr_id,
                                    ),
                                    body=str(n))
-
         while self.response is None:
             self.connection.process_data_events()
         return self.response

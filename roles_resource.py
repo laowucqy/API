@@ -25,13 +25,6 @@ class RoleController(base_controller.Controller):
         pprint("send create message to receive thread!")
         return content
 
-    def show(self, req):
-        content = dict()
-        return content
-
-    def list(self, req):
-        content = dict()
-        return content
 
     def delete(self, req):
         content = dict()
