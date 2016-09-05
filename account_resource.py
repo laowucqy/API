@@ -1,5 +1,7 @@
 import base_controller
 from pprint import pprint
+from gevent import monkey;monkey.patch_all()
+import gevent
 
 class AccountController(base_controller.Controller):
     def __init__(self,sendobj):
@@ -19,8 +21,9 @@ class AccountController(base_controller.Controller):
         self.message['content'] = content
         pprint(self.message)
         pprint("Build create message!")
-
-        res = self.sendobj.call(self.message)
+        self.sendobj.call(self.message)
+        #gevent.joinall(gevent.spawn(self.sendobj.call, self.message))
+        #res = self.sendobj.call(self.message)
         pprint("send create message to receive thread!")
         return content
 
@@ -32,8 +35,8 @@ class AccountController(base_controller.Controller):
         self.message['content'] = content
         pprint(self.message)
         pprint("Build delete message!")
-
         self.sendobj.call(self.message)
+        #gevent.joinall(gevent.spawn(self.sendobj.call, self.message))
         pprint("Send delete message to receive thread!")
         # return response
         return self.message
@@ -45,8 +48,8 @@ class AccountController(base_controller.Controller):
         self.message['content'] = content
         pprint(self.message)
         pprint("Build update message!")
-
         self.sendobj.call(self.message)
+       # gevent.join(gevent.spawn(self.sendobj.call, self.message))
         pprint("Send delete message to receive thread!")
 
         # return response

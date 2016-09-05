@@ -42,7 +42,7 @@ class Controller(object):
 
     def get_request(self,environ):
 
-        mes =environ['REMOTE_ADDR'] +' '+environ['REQUEST_METHOD']+' '+ environ['SCRIPT_NAME']+' '+environ['PATH_INFO'] +' '+environ['SERVER_PROTOCOL']+' '
+        mes =environ['REMOTE_ADDR'] +' '+environ['REQUEST_METHOD']+' '+ environ['SCRIPT_NAME']+environ['PATH_INFO'] +' '+environ['SERVER_PROTOCOL']+' '
         return mes
 
     def get_status(self,result):

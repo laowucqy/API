@@ -1,10 +1,8 @@
-import httplib
-import json
-import webob.dec
-from webob import Response
-from rpc_client import RpcClient
+
 import base_controller
 from pprint import pprint
+from gevent import monkey;monkey.patch_all()
+import gevent
 
 class RoleController(base_controller.Controller):
     def __init__(self,sendobj):
@@ -19,9 +17,8 @@ class RoleController(base_controller.Controller):
         self.message['content'] = content
         pprint(self.message)
         pprint("Build create message!")
-
-        res = self.sendobj.call(self.message)
-        print res
+        #gevent.joinall(gevent.spawn(self.sendobj.call, self.message))
+        self.sendobj.call(self.message)
         pprint("send create message to receive thread!")
         return content
 
