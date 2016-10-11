@@ -1,6 +1,6 @@
 import routes
 import wsgi
-import account_resource
+import resource_account
 import roles_resource
 from rpc_client import RpcClient
 
@@ -10,11 +10,18 @@ class account(wsgi.Router):
         if(mapper is None):
             mapper = routes.Mapper()
         sendobj = RpcClient('amqp::account')
-        account_controller = account_resource.AccountController(sendobj)
+        account_controller = resource_account.AccountController(sendobj)
         mapper.connect("/", controller=account_controller, action="create", conditions={'method': ['POST']})
         mapper.connect("/{user_name}", controller=account_controller, action="update",conditions={'method': ['PATCH']})
         mapper.connect("/{user_name}", controller=account_controller, action="delete",conditions={'method': ['DELETE']})
         super(account, self).__init__(mapper)
+
+class flavor(wsgi.Router):
+
+    def __init__(self,mapper=None):
+        if(mapper is None):
+            mapper = routes.Mapper()
+        sendobj = RpcClient('amqp::template::flavor')
 
 
 class roles(wsgi.Router):

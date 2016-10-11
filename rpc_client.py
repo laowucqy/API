@@ -8,7 +8,7 @@ class RpcClient(object):
     def __init__(self , queue_name):
         self.queue_name = queue_name
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host='localhost'))
+            host='localhost', heartbeat_interval=0))
         self.channel = self.connection.channel()
         result = self.channel.queue_declare(exclusive=True)
         self.callback_queue = result.method.queue
