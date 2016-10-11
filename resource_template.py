@@ -12,11 +12,11 @@ class Template_Flavor_Controller(base_controller.Controller):
         self.message['cmdtype'] = 'create'
         content = dict()
         content['flavor'] = dict()
-        content['flavor']['name'] = req.json_body['flavor']['name']
-        content['flavor']['ram'] = req.json_body['flavor']['ram']
-        content['flavor']['vcpus'] = req.json_body['flavor']['vcpus']
-        content['flavor']['vcpus'] = req.json_body['flavor']['vcpus']
-        content['flavor']['disk'] = req.json_body['flavor']['disk']
+        content['flavor']['name'] = req.json_body['name']
+        content['flavor']['ram'] = req.json_body['ram']
+        content['flavor']['vcpus'] = req.json_body['vcpus']
+        content['flavor']['vcpus'] = req.json_body['vcpus']
+        content['flavor']['disk'] = req.json_body['disk']
 
         self.message['content'] = content
         pprint(self.message)
@@ -31,11 +31,11 @@ class Template_Flavor_Controller(base_controller.Controller):
         self.message['cmdtype'] = 'delete'
         content = dict()
         content['flavor'] = dict()
-        content['flavor']['name'] = req.json_body['flavor']['name']
-        content['flavor']['ram'] = req.json_body['flavor']['ram']
-        content['flavor']['vcpus'] = req.json_body['flavor']['vcpus']
-        content['flavor']['vcpus'] = req.json_body['flavor']['vcpus']
-        content['flavor']['disk'] = req.json_body['flavor']['disk']
+        content['flavor']['name'] = req.json_body['name']
+        content['flavor']['ram'] = req.json_body['ram']
+        content['flavor']['vcpus'] = req.json_body['vcpus']
+        content['flavor']['vcpus'] = req.json_body['vcpus']
+        content['flavor']['disk'] = req.json_body['disk']
 
         self.message['content'] = content
         pprint(self.message)
@@ -57,12 +57,12 @@ class Template_Image_Controller(base_controller.Controller):
         self.message['cmdtype'] = 'create'
         content = dict()
         content['image'] = dict()
-        content['image']['container_formate'] = req.json_body['image']['container_formate']
-        content['image']['disk_formate'] = req.json_body['image']['disk_formate']
-        content['image']['name'] = req.json_body['image']['name']
-        content['image']['min_ram'] = req.json_body['image']['min_ram']
-        content['image']['visibility'] = req.json_body['image']['visiblity']
-        content['image']['min_disk'] = req.json_body['image']['min_disk']
+        content['image']['container_formate'] = req.json_body['container_formate']
+        content['image']['disk_formate'] = req.json_body['disk_formate']
+        content['image']['name'] = req.json_body['name']
+        content['image']['min_ram'] = req.json_body['min_ram']
+        content['image']['visibility'] = req.json_body['visiblity']
+        content['image']['min_disk'] = req.json_body['min_disk']
         content['filename'] = req.json_body['filename']
 
         self.message['content'] = content
@@ -78,12 +78,12 @@ class Template_Image_Controller(base_controller.Controller):
         self.message['cmdtype'] = 'delete'
         content = dict()
         content['image'] = dict()
-        content['image']['container_formate'] = req.json_body['image']['container_formate']
-        content['image']['disk_formate'] = req.json_body['image']['disk_formate']
-        content['image']['name'] = req.json_body['image']['name']
-        content['image']['min_ram'] = req.json_body['image']['min_ram']
-        content['image']['visibility'] = req.json_body['image']['visiblity']
-        content['image']['min_disk'] = req.json_body['image']['min_disk']
+        content['image']['container_formate'] = req.json_body['container_formate']
+        content['image']['disk_formate'] = req.json_body['disk_formate']
+        content['image']['name'] = req.json_body['name']
+        content['image']['min_ram'] = req.json_body['min_ram']
+        content['image']['visibility'] = req.json_body['visiblity']
+        content['image']['min_disk'] = req.json_body['min_disk']
         content['filename'] = req.json_body['filename']
 
 
