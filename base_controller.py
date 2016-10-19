@@ -13,19 +13,13 @@ class Controller(object):
 
     def index(self, req):
         match = req.environ['wsgiorg.routing_args'][1]
-        #response = Response(request=req, status=httplib.MULTIPLE_CHOICES,
-        #                   content_type='application/json')
-        #pprint (response.__dict__)
-        #fibonacci_rpc = FibonacciRpcClient()
-        #ans = self.sendobj.call(self.mes, self.rpc_queue)
-        #response.body = json.dumps(ans)
         action = match.pop('action')
         del match['controller']
         method = getattr(self, action)
         result = method(req, **match)
-        if result is None:
-            return webob.Response(body='',
-                                  status='204 Not Found',
+        if 'error_parameter' in result:
+            return webob.Response(body='error in parameter',
+                                  status='400 Bad Request',
                                   headerlist=[('Content-Type',
                                                'application/json')])
         else:

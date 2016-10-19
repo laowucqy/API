@@ -11,7 +11,7 @@ import greenlet
 module_dir = os.path.normpath(os.path.join(os.path.abspath(sys.argv[0]), os.pardir, os.pardir))
 sys.path.insert(0, module_dir)
 bind_host = "172.29.153.52"
-bind_port = 8000
+bind_port =8080
 
 
 def server(app_name):

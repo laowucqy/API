@@ -9,7 +9,6 @@ class Environment_Controller(base_controller.Controller):
         self.message['optype'] = 'environment'
 
     def create(self,req):
-
         self.message['cmdtype'] = 'create'
         content = dict()
         content['environment'] = dict()
@@ -18,13 +17,13 @@ class Environment_Controller(base_controller.Controller):
         content['environment']['user_id'] = req.json_body['user_id']
 
         self.message['content'] = content
-        pprint(self.message)
+        #pprint(self.message)
         pprint("Build create message!")
         self.sendobj.call(self.message)
         # gevent.joinall(gevent.spawn(self.sendobj.call, self.message))
         # res = self.sendobj.call(self.message)
         pprint("send create message to receive thread!")
-        return content
+        return self.message
 
 
     def delete(self,req):
@@ -36,10 +35,10 @@ class Environment_Controller(base_controller.Controller):
         content['environment']['user_id'] = req.json_body['user_id']
 
         self.message['content'] = content
-        pprint(self.message)
+        #pprint(self.message)
         pprint("Build create message!")
         self.sendobj.call(self.message)
         # gevent.joinall(gevent.spawn(self.sendobj.call, self.message))
         # res = self.sendobj.call(self.message)
         pprint("send create message to receive thread!")
-        return content
+        return self.message

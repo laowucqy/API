@@ -1,6 +1,7 @@
 import re
 import os
 import webob.dec
+import simplejson
 from LOG import LOG
 from pprint import pprint
 class filter_factory(object):
