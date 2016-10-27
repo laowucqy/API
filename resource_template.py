@@ -7,12 +7,12 @@ class Template_Flavor_Controller(base_controller.Controller):
         super(Template_Flavor_Controller, self).__init__(sendobj)
         self.message = dict()
         self.message['optype'] = 'flavor_template'
-
+        self.attrs = {'name','ram','vcpus','disk'}
     def create(self,req):
 
         error = httpexe(req)
-        result = error.check_template_flavor()
-        if not result == '':
+        result = error.check_keys(self.attrs)
+        if result :
             return result
 
         self.message['cmdtype'] = 'create'
@@ -34,8 +34,8 @@ class Template_Flavor_Controller(base_controller.Controller):
 
     def delete(self,req):
         error = httpexe(req)
-        result = error.check_template_flavor()
-        if not result == '':
+        result = error.check_keys(self.attrs)
+        if result:
             return result
         self.message['cmdtype'] = 'delete'
         content = dict()
@@ -60,11 +60,12 @@ class Template_Image_Controller(base_controller.Controller):
         super(Template_Image_Controller, self).__init__(sendobj)
         self.message = dict()
         self.message['optype'] = 'image_template'
+        self.attrs = {'container_format','disk_format','disk_format','name','min_ram','visibility','min_disk','filename'}
 
     def create(self, req):
         error = httpexe(req)
-        result = error.check_template_image()
-        if not result == '':
+        result = error.check_keys(self.attrs)
+        if result:
             return result
         self.message['cmdtype'] = 'create'
         content = dict()
@@ -88,8 +89,8 @@ class Template_Image_Controller(base_controller.Controller):
 
     def delete(self, req):
         error = httpexe(req)
-        result = error.check_template_image()
-        if not result == '':
+        result = error.check_keys(self.attrs)
+        if result:
             return result
         self.message['cmdtype'] = 'delete'
         content = dict()

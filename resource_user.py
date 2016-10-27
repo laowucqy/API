@@ -9,11 +9,11 @@ class AccountController(base_controller.Controller):
         super(AccountController, self).__init__(sendobj)
         self.message = dict()
         self.message['optype'] = 'account'
-
+        self.attrs = {'name','email','password'}
     def create(self, req):
         error = httpexe(req)
-        result = error.check_user_account()
-        if not result == '':
+        result = error.check_keys(self.attrs)
+        if result:
             return result
         self.message['cmdtype'] = 'create'
         #self.message['user'] = req.headers.get('X-User-Id')
@@ -36,8 +36,8 @@ class AccountController(base_controller.Controller):
 
     def delete(self, req ):
         error = httpexe(req)
-        result = error.check_user_account()
-        if not result == '':
+        result = error.check_keys(self.attrs)
+        if result:
             return result
         self.message['cmdtype'] = 'delete'
         content = dict()
@@ -73,11 +73,12 @@ class QuotaController(base_controller.Controller):
         super(QuotaController, self).__init__(sendobj)
         self.message = dict()
         self.message['optype'] = 'quota'
+        self.attrs = {'name','force','instances'}
 
     def create(self, req):
         error = httpexe(req)
-        result = error.check_user_quota()
-        if not result == '':
+        result = error.check_keys(self.attrs)
+        if result:
             return result
         self.message['cmdtype'] = 'create'
         # self.message['user'] = req.headers.get('X-User-Id')
@@ -99,8 +100,8 @@ class QuotaController(base_controller.Controller):
 
     def delete(self, req):
         error = httpexe(req)
-        result = error.check_user_quota()
-        if not result == '':
+        result = error.check_keys(self.attrs)
+        if result:
             return result
         self.message['cmdtype'] = 'delete'
         content = dict()

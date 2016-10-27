@@ -26,12 +26,14 @@ class Server(object):
     #default_pool_size = CONF.wsgi_default_pool_size
     def __init__(self, app, host, port ):
         self.app = app
+        self.host = host
+        self.port = port
         self._server = None
         self._protocol = eventlet.wsgi.HttpProtocol
         self.pool_size = 1000 #or self.default_pool_size
         self._pool = eventlet.GreenPool(self.pool_size)
         #self._max_url_len = max_url_len
-        self.client_socket_timeout = 60#or CONF.client_socket_timeout
+        self.client_socket_timeout = 1#or CONF.client_socket_timeout
         bind_addr=(bind_host,bind_port)
         try:
             info = socket.getaddrinfo(bind_addr[0],
@@ -46,14 +48,8 @@ class Server(object):
             self._socket = eventlet.listen(bind_addr, family, backlog=128)
             print("Listening on %(host)s:%(port)s" % self.__dict__)
         except EnvironmentError:
-            print(("Could not bind to %(host)s:%(port)s"),
-                      {'host': host, 'port': port})
+            print("Could not bind to %(host)s:%(port)s")
             raise
-
-        self._socket = eventlet.listen((host, port), backlog=100)
-        (self.host, self.port) = self._socket.getsockname()
-
-
     def start(self):
         dup_socket = self._socket.dup()
         dup_socket.setsockopt(socket.SOL_SOCKET,
