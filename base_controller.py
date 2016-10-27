@@ -1,4 +1,3 @@
-import httplib
 import simplejson
 import webob.dec
 from pprint import pprint
@@ -23,7 +22,7 @@ class Controller(object):
                                   headerlist=[('Content-Type',
                                                'application/json')])
         else:
-            if not isinstance(result, basestring):
+            if not isinstance(result, str):
                 result = webob.Response(simplejson.dumps(result))
                 mes = self.get_request(req.environ) + self.get_status(result) + self.get_len(req.environ)
                 self.LOG.INFO(mes)
