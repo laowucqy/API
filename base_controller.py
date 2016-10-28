@@ -21,6 +21,11 @@ class Controller(object):
                                   status='400 Bad Request',
                                   headerlist=[('Content-Type',
                                                'application/json')])
+        if 'timeout' in result:
+            return webob.Response(body='Server Timeout',
+                                  status='503 Timeout',
+                                  headerlist=[('Content-Type',
+                                               'application/json')])
         else:
             if not isinstance(result, str):
                 result = webob.Response(simplejson.dumps(result))

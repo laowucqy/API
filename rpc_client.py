@@ -1,7 +1,9 @@
 # !/usr/bin/env python
 # -*- coding: UTF-8 -*-
+#TODO:get the attrs form conf
 import pika
 import uuid
+import time
 
 
 class RpcClient(object):
@@ -30,7 +32,11 @@ class RpcClient(object):
                                        correlation_id=self.corr_id,
                                    ),
                                    body=str(n))
+        timeout = int(5)
+        start = time.time()
         while self.response is None:
+            if time.time()-start > timeout: #if timeout raise error
+                self.response = {'timeout':time.clock()}
             self.connection.process_data_events()
         return self.response
 
