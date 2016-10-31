@@ -17,7 +17,7 @@ class AccountController(base_controller.Controller):
             return result
         self.message['cmdtype'] = 'create'
         #self.message['user'] = req.headers.get('X-User-Id')
-
+        print (str(req.json_body))
         content = dict()
         content['user'] = dict()
         content['user']['name'] = req.json_body['name']

@@ -17,12 +17,7 @@ class Template_Flavor_Controller(base_controller.Controller):
 
         self.message['cmdtype'] = 'create'
         content = dict()
-        content['flavor'] = dict()
-        content['flavor']['name'] = req.json_body['name']
-        content['flavor']['ram'] = req.json_body['ram']
-        content['flavor']['vcpus'] = req.json_body['vcpus']
-        content['flavor']['disk'] = req.json_body['disk']
-
+        content['flavor'] = eval(str(req.json_body))
         self.message['content'] = content
         #pprint(self.message)
         pprint("Build create message!")

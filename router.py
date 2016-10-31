@@ -1,10 +1,14 @@
 import routes
 import wsgi
-import resource_user
+import resource
 import roles_resource
 import resource_template
 import resource_environment
 from rpc_client import RpcClient
+
+attrs_account = {'name','email','password'}
+attrs_quota  =  {'name','force','instances'}
+
 
 class user(wsgi.Router):
 
@@ -12,12 +16,12 @@ class user(wsgi.Router):
         if(mapper is None):
             mapper = routes.Mapper()
         sendobj_account = RpcClient('amqp::user::account')
-        account_controller = resource_user.AccountController(sendobj_account)
+        account_controller = resource.AccountController(sendobj_account,'account',attrs_account)
         mapper.connect("/account", controller=account_controller, action="create", conditions={'method': ['POST']})
         mapper.connect("/account", controller=account_controller, action="update",conditions={'method': ['PATCH']})
         mapper.connect("/account", controller=account_controller, action="delete",conditions={'method': ['DELETE']})
         sendobj_quota = RpcClient('amqp::user::quota')
-        quota_controller = resource_user.QuotaController(sendobj_quota)
+        quota_controller = resource.QuotaController(sendobj_quota,'quota',attrs_quota)
         mapper.connect("/quota", controller=quota_controller, action="create", conditions={'method': ['POST']})
         mapper.connect("/quota", controller=quota_controller, action="delete", conditions={'method': ['DELETE']})
         super(user, self).__init__(mapper)
