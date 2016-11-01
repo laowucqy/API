@@ -20,7 +20,7 @@ class filter01(filter_factory):
         super(filter01, self).__init__(app)
 
     def __call__(self, environ, start_response):
-        print 'request method is: %s' % environ['REQUEST_METHOD']
+        print('request method is: %s' % environ['REQUEST_METHOD'])
         return self.app(environ, start_response)
 
 

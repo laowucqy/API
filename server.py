@@ -1,22 +1,24 @@
 import os
 import sys
 from paste import deploy
-from wsgiref.simple_server import make_server
-from threading import Thread
 import eventlet
 import eventlet.wsgi
 import greenlet
 import socket
+import ConfigParser
 
+CONF = ConfigParser.ConfigParser()
+CONF.read("api.conf")
 module_dir = os.path.normpath(os.path.join(os.path.abspath(sys.argv[0]), os.pardir, os.pardir))
 sys.path.insert(0, module_dir)
-bind_host = "172.29.153.52"
-bind_port =8080
-
+bind_host = CONF.get('api','bind_host')
+bind_port = CONF.get('api','bind_port')
+pool_size = CONF.get('api','pool_siez')
+backlog = CONF.get('api','backlog')
 def server(app_name):
-    app = load_paste_app(app_name, "identity.ini")
+    app = load_paste_app(app_name, "api.ini")
     #serve = make_server(bind_host, bind_port, app)
-    server = Server(app,bind_host,bind_port)
+    server = Server(app,bind_host,bind_port,pool_size,backlog)
     server.start()
     server.wait()
     #serve.serve_forever()
@@ -24,14 +26,15 @@ def server(app_name):
 
 class Server(object):
     #default_pool_size = CONF.wsgi_default_pool_size
-    def __init__(self, app, host, port ):
+    def __init__(self, app, host, port ,pool_size ,backlog):
         self.app = app
         self.host = host
         self.port = port
         self._server = None
         self._protocol = eventlet.wsgi.HttpProtocol
-        self.pool_size = 1000 #or self.default_pool_size
+        self.pool_size = pool_size #or self.default_pool_size
         self._pool = eventlet.GreenPool(self.pool_size)
+        self.backlog = backlog
         #self._max_url_len = max_url_len
         self.client_socket_timeout = 1#or CONF.client_socket_timeout
         bind_addr=(bind_host,bind_port)
@@ -45,7 +48,7 @@ class Server(object):
         except Exception:
             family = socket.AF_INET
         try:
-            self._socket = eventlet.listen(bind_addr, family, backlog=128)
+            self._socket = eventlet.listen(bind_addr, family, backlog=self.backlog)
             print("Listening on %(host)s:%(port)s" % self.__dict__)
         except EnvironmentError:
             print("Could not bind to %(host)s:%(port)s")
@@ -57,10 +60,6 @@ class Server(object):
         # sockets can hang around forever without keepalive
         dup_socket.setsockopt(socket.SOL_SOCKET,
                               socket.SO_KEEPALIVE, 1)
-
-        # This option isn't available in the OS X version of eventlet
-
-
         wsgi_kwargs = {
             'func':eventlet.wsgi.server,
             'sock':dup_socket,
@@ -111,6 +110,6 @@ def load_paste_app(app_name, conf_file):
 
 if __name__ == '__main__':
     app_name = "main"
-    conf_file = "identity.ini"
+    conf_file ="api.ini"
     server(app_name)
 
