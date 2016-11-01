@@ -55,6 +55,7 @@ class EnvironmentController(Resource):
         return result
     def delete(self, req):
         result = super(EnvironmentController, self).method(req, 'delete')
+        return result
 
 class  FlavorController(Resource):
     def __init__(self,sendobj, optype, attrs):
@@ -64,13 +65,14 @@ class  FlavorController(Resource):
         return result
     def delete(self, req):
         result = super(FlavorController, self).method(req, 'delete')
+        return result
 class ImageController(Resource):
     def __init__(self,sendobj, optype, attrs):
-        super(FlavorController, self).__init__(sendobj, optype, attrs)
+        super(ImageController, self).__init__(sendobj, optype, attrs)
 
     def create(self,req):
         result = super(ImageController, self).method(req,'create')
         return result
     def delete(self, req):
         result = super(ImageController, self).method(req, 'delete')
-        return resultl
+        return result

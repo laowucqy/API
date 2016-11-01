@@ -1,13 +1,13 @@
 import routes
 import wsgi
 import resource
-import roles_resource
-import resource_template
-import resource_environment
 from rpc_client import RpcClient
 
 attrs_account = {'name','email','password'}
 attrs_quota  =  {'name','force','instances'}
+attrs_environment = {'template_id','user_id'}
+attrs_image = {'container_format','disk_format','disk_format','name','min_ram','visibility','min_disk','filename'}
+attrs_flavor = {'name','ram','vcpus','disk'}
 
 
 class user(wsgi.Router):
@@ -32,11 +32,11 @@ class template(wsgi.Router):
         if(mapper is None):
             mapper = routes.Mapper()
         sendobj_flavor = RpcClient('amqp::template::flavor')
-        template_flavor_controller = resource_template.Template_Flavor_Controller(sendobj_flavor)
+        template_flavor_controller = resource.FlavorController(sendobj_flavor,'flovor',attrs_flavor)
         mapper.connect("/flavor", controller=template_flavor_controller, action="create", conditions={'method': ['POST']})
         mapper.connect("/flavor", controller=template_flavor_controller, action="delete",conditions={'method': ['DELETE']})
         sendobj_image = RpcClient('amqp::template::image')
-        template_image_controller = resource_template.Template_Image_Controller(sendobj_image)
+        template_image_controller = resource.ImageController(sendobj_image,'image',attrs_image)
         mapper.connect("/image", controller=template_image_controller, action="create", conditions={'method': ['POST']})
         mapper.connect("/image", controller=template_image_controller, action="delete", conditions={'method': ['DELETE']})
         super(template, self).__init__(mapper)
@@ -46,21 +46,10 @@ class environment(wsgi.Router):
         if (mapper is None):
             mapper = routes.Mapper()
         sendobj = RpcClient('amqp::environment')
-        environment_controller = resource_environment.Environment_Controller(sendobj)
+        environment_controller = resource.EnvironmentController(sendobj,'environment',attrs_environment)
         mapper.connect("/environment", controller=environment_controller, action="create", conditions={'method': ['POST']})
         mapper.connect("/environment", controller=environment_controller, action="delete", conditions={'method': ['DELETE']})
         super(environment, self).__init__(mapper)
 
-class roles(wsgi.Router):
-
-    def __init__(self, mapper=None):
-        if(mapper is None):
-            mapper = routes.Mapper()
-        sendobj = RpcClient('role')
-        role_controller = roles_resource.RoleController(sendobj)
-        mapper.connect("/", controller=role_controller, action="create",conditions={'method': ['POST']})
-        mapper.connect("/{roles_id}", controller=role_controller, action="update",conditions={'method': ['PATCH']})
-        mapper.connect("/{roles_id}", controller=role_controller, action="delete",conditions={'method': ['DELETE']})
-        super(roles, self).__init__(mapper)
 
 

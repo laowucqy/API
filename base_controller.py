@@ -16,7 +16,19 @@ class Controller(object):
         del match['controller']
         method = getattr(self, action)
         result = method(req, **match)
-        if 'error_parameter' in result:
+        for attr in result:
+            if attr  == 'error_parameter' :
+                return webob.Response(body='error in parameter',
+                                      status='400 Bad Request',
+                                      headerlist=[('Content-Type',
+                                                   'application/json')])
+            if attr =='timeout':
+                return webob.Response(body='Server Timeout',
+                                      status='503 Timeout',
+                                      headerlist=[('Content-Type',
+                                                   'application/json')])
+
+        '''if 'error_parameter' in result:
             return webob.Response(body='error in parameter',
                                   status='400 Bad Request',
                                   headerlist=[('Content-Type',
@@ -25,14 +37,14 @@ class Controller(object):
             return webob.Response(body='Server Timeout',
                                   status='503 Timeout',
                                   headerlist=[('Content-Type',
-                                               'application/json')])
-        else:
-            if not isinstance(result, str):
-                result = webob.Response(simplejson.dumps(result))
-                mes = self.get_request(req.environ) + self.get_status(result) + self.get_len(req.environ)
-                self.LOG.INFO(mes)
-                #pprint(result.__dict__)
-            return result
+                                               'application/json')])'''
+
+        if not isinstance(result, str):
+            result = webob.Response(simplejson.dumps(result))
+            mes = self.get_request(req.environ) + self.get_status(result) + self.get_len(req.environ)
+            self.LOG.INFO(mes)
+             #pprint(result.__dict__)
+        return result
 
     @webob.dec.wsgify
     def __call__(self, request):
