@@ -18,16 +18,20 @@ class Controller(object):
         result = method(req, **match)
         for attr in result:
             if attr  == 'error_parameter' :
+                mes = self.get_mes(req.environ, result)
+                self.LOG.INFO(mes)
                 return webob.Response(body='error in parameter',
                                       status='400 Bad Request',
                                       headerlist=[('Content-Type',
                                                    'application/json')])
             if attr =='timeout':
+                mes = self.get_mes(req.environ, result)
+                self.LOG.INFO(mes)
                 return webob.Response(body='Server Timeout',
                                       status='503 Timeout',
                                       headerlist=[('Content-Type',
                                                    'application/json')])
-
+            #TODO the result of forbiden
         '''if 'error_parameter' in result:
             return webob.Response(body='error in parameter',
                                   status='400 Bad Request',
@@ -41,7 +45,8 @@ class Controller(object):
 
         if not isinstance(result, str):
             result = webob.Response(simplejson.dumps(result))
-            mes = self.get_request(req.environ) + self.get_status(result) + self.get_len(req.environ)
+            #mes = self.get_request(req.environ) + self.get_status(result) + self.get_len(req.environ)
+            mes = self.get_mes(req.environ,result)
             self.LOG.INFO(mes)
              #pprint(result.__dict__)
         return result
@@ -63,4 +68,7 @@ class Controller(object):
     def get_len(self,environ):
         mes = str(environ['CONTENT_LENGTH'])
         mes = 'len:' + mes + ' '
+        return mes
+    def get_mes(self,environ, result):
+        mes = self.get_request(environ) + self.get_status(result) + self.get_len(environ)
         return mes
