@@ -3,8 +3,8 @@
 import pika
 import uuid
 import time
-import ConfigParser
-CONF = ConfigParser.ConfigParser()
+import configparser
+CONF = configparser.ConfigParser()
 CONF.read("api.conf")
 rpc_host = CONF.get('rpc','rpc_host')
 timeout = CONF.get('rpc','timeout')

@@ -5,12 +5,12 @@ import eventlet
 import eventlet.wsgi
 import greenlet
 import socket
-import ConfigParser
+import configparser
 from LOG import LOG
-
+import logging.config
 LOG = LOG("log.ini",'api')
 
-CONF = ConfigParser.ConfigParser()
+CONF = configparser.ConfigParser()
 CONF.read("api.conf")
 module_dir = os.path.normpath(os.path.join(os.path.abspath(sys.argv[0]), os.pardir, os.pardir))
 sys.path.insert(0, module_dir)
