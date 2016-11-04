@@ -6,6 +6,9 @@ import eventlet.wsgi
 import greenlet
 import socket
 import ConfigParser
+from LOG import LOG
+
+LOG = LOG("log.ini",'api')
 
 CONF = ConfigParser.ConfigParser()
 CONF.read("api.conf")
@@ -13,7 +16,7 @@ module_dir = os.path.normpath(os.path.join(os.path.abspath(sys.argv[0]), os.pard
 sys.path.insert(0, module_dir)
 bind_host = CONF.get('api','bind_host')
 bind_port = CONF.get('api','bind_port')
-pool_size = CONF.get('api','pool_siez')
+pool_size = CONF.get('api','pool_size')
 backlog = CONF.get('api','backlog')
 def server(app_name):
     app = load_paste_app(app_name, "api.ini")
@@ -48,10 +51,14 @@ class Server(object):
         except Exception:
             family = socket.AF_INET
         try:
-            self._socket = eventlet.listen(bind_addr, family, backlog=self.backlog)
-            print("Listening on %(host)s:%(port)s" % self.__dict__)
+            self._socket = eventlet.listen(bind_addr, family, backlog=int(self.backlog))
+            mes = "Listening on %(host)s:%(port)s" % self.__dict__
+            #LOG.INFO(mes)
+            print(mes)
         except EnvironmentError:
-            print("Could not bind to %(host)s:%(port)s")
+            mes = "Could not bind to %(host)s:%(port)s"
+            LOG.ERROR(mes)
+            print(mes)
             raise
     def start(self):
         dup_socket = self._socket.dup()
@@ -68,8 +75,11 @@ class Server(object):
             'custom_pool':self._pool,
             'socket_timeout':self.client_socket_timeout
         }
-
-        self._server = eventlet.spawn(**wsgi_kwargs)
+        try:
+            self._server = eventlet.spawn(**wsgi_kwargs)
+        except OSError:
+            mes = "Could not start server "
+            LOG.ERROR(mes)
 
     def reset(self):
         """Reset server greenpool size to default.
@@ -106,6 +116,7 @@ def load_paste_app(app_name, conf_file):
         app = deploy.loadapp("config:%s" % os.path.abspath(conf_file), name=app_name)
         return app
     except(LookupError, ImportError) as e:
+        mes = "Could not load app called %(app_name)s at %(conf_file)s"
         raise RuntimeError(str(e))
 
 if __name__ == '__main__':
