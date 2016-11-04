@@ -9,7 +9,6 @@ import configparser
 from LOG import LOG
 import logging.config
 LOG = LOG("log.ini",'api')
-
 CONF = configparser.ConfigParser()
 CONF.read("api.conf")
 module_dir = os.path.normpath(os.path.join(os.path.abspath(sys.argv[0]), os.pardir, os.pardir))
@@ -40,7 +39,7 @@ class Server(object):
         self.backlog = backlog
         #self._max_url_len = max_url_len
         self.client_socket_timeout = 1#or CONF.client_socket_timeout
-        bind_addr=(bind_host,bind_port)
+        bind_addr=(bind_host,int(bind_port))
         try:
             info = socket.getaddrinfo(bind_addr[0],
                                       bind_addr[1],

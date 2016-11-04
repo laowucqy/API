@@ -21,7 +21,7 @@ class user(wsgi.Router):
         mapper.connect("/account", controller=account_controller, action="update",conditions={'method': ['PATCH']})
         mapper.connect("/account", controller=account_controller, action="delete",conditions={'method': ['DELETE']})
         sendobj_quota = RpcClient('amqp::user::quota')
-        quota_controller = resource.Resource(sendobj_quota,'quota',attrs_quota)
+        quota_controller = resource.Controller(sendobj_quota,'quota',attrs_quota)
         mapper.connect("/quota", controller=quota_controller, action="create", conditions={'method': ['POST']})
         mapper.connect("/quota", controller=quota_controller, action="delete", conditions={'method': ['DELETE']})
         super(user, self).__init__(mapper)
