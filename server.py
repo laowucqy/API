@@ -21,7 +21,7 @@ backlog = CONF.get('api','backlog')
 def server(app_name):
     app = load_paste_app(app_name, "api.ini")
     #serve = make_server(bind_host, bind_port, app)
-    server = Server(app,bind_host,bind_port,pool_size,backlog)
+    server = Server(app,bind_host,bind_port,pool_size,int(backlog))
     server.start()
     server.wait()
     #serve.serve_forever()
