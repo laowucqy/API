@@ -18,16 +18,12 @@ class Controller(object):
         result = method(req, **match)
         for attr in result:
             if attr  == 'error_parameter' :
-                mes = self.get_mes(req.environ, result)
-                self.LOG.INFO(mes)
-                return webob.Response(body='error in parameter',
+                result = webob.Response(body='error in parameter',
                                       status='400 Bad Request',
                                       headerlist=[('Content-Type',
                                                    'application/json')])
             if attr =='timeout':
-                mes = self.get_mes(req.environ, result)
-                self.LOG.INFO(mes)
-                return webob.Response(body='Server Timeout',
+                result = webob.Response(body='Server Timeout',
                                       status='503 Timeout',
                                       headerlist=[('Content-Type',
                                                    'application/json')])
