@@ -22,11 +22,17 @@ class Controller(object):
                                       status='400 Bad Request',
                                       headerlist=[('Content-Type',
                                                    'application/json')])
+                mes = self.get_mes(req.environ, result)
+                self.LOG.INFO(mes)
+                return result
             if attr =='timeout':
                 result = webob.Response(body='Server Timeout',
                                       status='503 Timeout',
                                       headerlist=[('Content-Type',
                                                    'application/json')])
+                mes = self.get_mes(req.environ, result)
+                self.LOG.INFO(mes)
+                return result
             #TODO the result of forbiden
         '''if 'error_parameter' in result:
             return webob.Response(body='error in parameter',
