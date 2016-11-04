@@ -56,7 +56,7 @@ class Server(object):
             #LOG.INFO(mes)
             print(mes)
         except EnvironmentError:
-            mes = "Could not bind to %(host)s:%(port)s"
+            mes = "Could not bind to %(host)s:%(port)s" % self.__dict__
             LOG.ERROR(mes)
             print(mes)
             raise
