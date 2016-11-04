@@ -24,55 +24,13 @@ class Resource(base_controller.Controller):
         pprint("send create message to receive thread!")
         return self.message
 
-class AccountController(Resource):
+class Controller(Resource):
     def __init__(self, sendobj, optype, attrs):
-        super(AccountController, self).__init__(sendobj, optype, attrs)
+        super(Controller, self).__init__(sendobj, optype, attrs)
 
     def create(self,req):
-        result = super(AccountController, self).method(req, 'create')
+        result = super(Controller, self).method(req, 'create')
         return result
     def delete(self,req):
-        result = super(AccountController, self).method(req, 'delete')
-        return result
-
-class QuotaController(Resource):
-    def __init__(self, sendobj, optype, attrs):
-        super(QuotaController, self).__init__(sendobj, optype, attrs)
-
-    def create(self, req):
-        result = super(QuotaController, self).method(req, 'create')
-        return result
-    def delete(self, req):
-        result = super(QuotaController, self).method(req, 'delete')
-        return result
-
-class EnvironmentController(Resource):
-    def __init__(self, sendobj, optype, attrs):
-        super(EnvironmentController,self).__init__(sendobj, optype, attrs)
-
-    def create(self, req):
-        result = super(EnvironmentController, self).method(req, 'create')
-        return result
-    def delete(self, req):
-        result = super(EnvironmentController, self).method(req, 'delete')
-        return result
-
-class  FlavorController(Resource):
-    def __init__(self,sendobj, optype, attrs):
-        super(FlavorController, self).__init__(sendobj, optype, attrs)
-    def create(self, req):
-        result = super(FlavorController, self).method(req,'create')
-        return result
-    def delete(self, req):
-        result = super(FlavorController, self).method(req, 'delete')
-        return result
-class ImageController(Resource):
-    def __init__(self,sendobj, optype, attrs):
-        super(ImageController, self).__init__(sendobj, optype, attrs)
-
-    def create(self,req):
-        result = super(ImageController, self).method(req,'create')
-        return result
-    def delete(self, req):
-        result = super(ImageController, self).method(req, 'delete')
+        result = super(Controller, self).method(req, 'delete')
         return result
