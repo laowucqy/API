@@ -34,3 +34,17 @@ class Controller(Resource):
     def delete(self,req):
         result = super(Controller, self).method(req, 'delete')
         return result
+
+    def start(self,req):
+        result = super(Controller, self).method(req, 'update')
+        return result
+
+    def shutdown(self,req):
+        result = super(Controller, self).method(req, 'shutdown')
+        return result
+
+    def update(self,req):
+        result = super(Controller, self).method(req, 'update')
+        return result
+
+

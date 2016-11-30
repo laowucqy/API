@@ -35,10 +35,12 @@ class template(wsgi.Router):
         template_flavor_controller = resource.Controller(sendobj_flavor,'flovor',attrs_flavor)
         mapper.connect("/flavor", controller=template_flavor_controller, action="create", conditions={'method': ['POST']})
         mapper.connect("/flavor", controller=template_flavor_controller, action="delete",conditions={'method': ['DELETE']})
+        mapper.connect("/flavor", controller=template_flavor_controller, action="update",conditions={'method': ['UPDATE']})
         sendobj_image = RpcClient('amqp::template::image')
         template_image_controller = resource.Controller(sendobj_image,'image',attrs_image)
         mapper.connect("/image", controller=template_image_controller, action="create", conditions={'method': ['POST']})
         mapper.connect("/image", controller=template_image_controller, action="delete", conditions={'method': ['DELETE']})
+        mapper.connect("/image", controller=template_image_controller, action="update",conditions={'method': ['UPDATE']})
         super(template, self).__init__(mapper)
 
 class environment(wsgi.Router):
@@ -49,6 +51,8 @@ class environment(wsgi.Router):
         environment_controller = resource.Controller(sendobj,'environment',attrs_environment)
         mapper.connect("/environment", controller=environment_controller, action="create", conditions={'method': ['POST']})
         mapper.connect("/environment", controller=environment_controller, action="delete", conditions={'method': ['DELETE']})
+        mapper.connect("/environment/start", controller=environment_controller, action="start", conditions={'method': ['POST']})
+        mapper.connect("/environment/shutdown", controller=environment_controller, action="shutdown", conditions={'method': ['POST']})
         super(environment, self).__init__(mapper)
 
 
